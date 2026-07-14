@@ -99,7 +99,7 @@ do
   vim.g.maplocalleader = ' '
 
   -- Set to true if you have a Nerd Font installed and selected in the terminal
-  vim.g.have_nerd_font = false
+  vim.g.have_nerd_font = true
 
   -- [[ Setting options ]]
   --  See `:help vim.o`
@@ -390,10 +390,53 @@ do
     },
   }
 
+  vim.pack.add { gh 'xiantang/darcula-dark.nvim' }
+
+  vim.opt.termguicolors = true
+  vim.pack.add { gh 'Mofiqul/vscode.nvim' }
+  local c = require('vscode.colors').get_colors()
+  require('vscode').setup {
+    -- Alternatively set style in setup
+    -- style = 'light'
+
+    -- Enable transparent background
+    transparent = true,
+
+    -- Enable italic comment
+    italic_comments = true,
+
+    -- Enable italic inlay type hints
+    italic_inlayhints = true,
+
+    -- Underline `@markup.link.*` variants
+    underline_links = true,
+
+    -- Disable nvim-tree background color
+    disable_nvimtree_bg = true,
+
+    -- Apply theme colors to terminal
+    terminal_colors = true,
+
+    -- Override colors (see ./lua/vscode/colors.lua)
+    color_overrides = {
+      vscLineNumber = c.vscGray,
+    },
+
+    -- Override highlight groups (see ./lua/vscode/theme.lua)
+    group_overrides = {
+      -- this supports the same val table as vim.api.nvim_set_hl
+      -- use colors from this colorscheme by requiring vscode.colors!
+      Cursor = { fg = c.vscDarkBlue, bg = c.vscLightGreen, bold = true },
+    },
+  }
+  --require('vscode').load()
+
   -- Load the colorscheme here.
   -- Like many other themes, this one has different styles, and you could load
   -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-  vim.cmd.colorscheme 'tokyonight-night'
+  -- vim.cmd.colorscheme 'tokyonight-night'
+  -- vim.cmd.colorscheme 'darcula-dark'
+  vim.cmd.colorscheme "vscode"
 
   -- Highlight todo, notes, etc in comments
   vim.pack.add { gh 'folke/todo-comments.nvim' }
@@ -494,11 +537,12 @@ do
     -- You can put your default mappings / updates / etc. in here
     --  All the info you're looking for is in `:help telescope.setup()`
     --
-    -- defaults = {
+    defaults = {
+      path_display = { "truncate" },
     --   mappings = {
     --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
     --   },
-    -- },
+    },
     -- pickers = {}
     extensions = {
       ['ui-select'] = { require('telescope.themes').get_dropdown() },
@@ -517,6 +561,7 @@ do
   vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
   vim.keymap.set({ 'n', 'v' }, '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
   vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
+  vim.keymap.set('n', '<C-F>', builtin.live_grep, { desc = 'Find all' })
   vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
   vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
   vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
@@ -692,9 +737,12 @@ do
   --  See `:help lsp-config` for information about keys and how to configure
   ---@type table<string, vim.lsp.Config>
   local servers = {
-    -- clangd = {},
+    clangd = {},
     -- gopls = {},
     -- pyright = {},
+    neocmake = {},
+    -- dockerls = {},
+    -- docker_compose_language_service = {},
     -- rust_analyzer = {},
     --
     -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -802,6 +850,10 @@ do
       --
       -- You can use 'stop_after_first' to run the first available formatter from the list
       -- javascript = { "prettierd", "prettier", stop_after_first = true },
+      c = { "clang-format" },
+      cpp = { "clang-format" },
+      yaml = { "yamlfmt" },
+      yml = { "yamlfmt" },
     },
   }
 
@@ -824,8 +876,8 @@ do
   --    See the README about individual language/framework/plugin snippets:
   --    https://github.com/rafamadriz/friendly-snippets
   --
-  -- vim.pack.add { gh 'rafamadriz/friendly-snippets' }
-  -- require('luasnip.loaders.from_vscode').lazy_load()
+  vim.pack.add { gh 'rafamadriz/friendly-snippets' }
+  require('luasnip.loaders.from_vscode').lazy_load()
 
   -- [[ Autocomplete Engine ]]
   vim.pack.add { { src = gh 'saghen/blink.cmp', version = vim.version.range '1.*' } }
@@ -966,17 +1018,17 @@ do
   --  Here are some example plugins that I've included in the Kickstart repository.
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
-  -- require 'kickstart.plugins.debug'
-  -- require 'kickstart.plugins.indent_line'
-  -- require 'kickstart.plugins.lint'
-  -- require 'kickstart.plugins.autopairs'
-  -- require 'kickstart.plugins.neo-tree'
-  -- require 'kickstart.plugins.gitsigns' -- adds gitsigns recommended keymaps
+  require 'kickstart.plugins.debug'
+  require 'kickstart.plugins.indent_line'
+  require 'kickstart.plugins.lint'
+  require 'kickstart.plugins.autopairs'
+  require 'kickstart.plugins.neo-tree'
+  require 'kickstart.plugins.gitsigns' -- adds gitsigns recommended keymaps
 
   -- NOTE: You can add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  -- require 'custom.plugins'
+  require 'custom.plugins'
 end
 
 -- The line beneath this is called `modeline`. See `:help modeline`
