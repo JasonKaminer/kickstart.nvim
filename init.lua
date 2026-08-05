@@ -580,11 +580,22 @@ do
     --
     defaults = {
       path_display = { "truncate" },
+      file_ignore_patterns = { "^.git/" },
     --   mappings = {
     --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
     --   },
     },
-    -- pickers = {}
+    pickers = {
+      find_files = {
+        hidden = true,
+        no_ignore = true,
+      },
+      live_grep = {
+        additional_args = function(opts)
+          return { "--hidden" }
+        end
+    },
+    },
     extensions = {
       ['ui-select'] = { require('telescope.themes').get_dropdown() },
     },
@@ -661,6 +672,9 @@ do
       builtin.live_grep {
         grep_open_files = true,
         prompt_title = 'Live Grep in Open Files',
+        additional_args = function(raw_opts)
+          return { "--hidden" }
+        end,
       }
     end,
     { desc = '[S]earch [/] in Open Files' }
