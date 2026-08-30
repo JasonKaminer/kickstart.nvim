@@ -171,6 +171,21 @@ do
   -- instead raise a dialog asking if you wish to save the current file(s)
   -- See `:help 'confirm'`
   vim.o.confirm = true
+
+  -- Enable autosave
+  vim.o.autowriteall = true
+
+  -- Disable copy on delete
+  vim.keymap.set({'n', 'v'}, 'd', '"_d', { noremap = true })
+  vim.keymap.set({'n', 'v'}, 'D', '"_d', { noremap = true })
+  vim.keymap.set({'n', 'v'}, '<Del>', '"_x', { noremap = true })
+
+  -- Enable clipboard sharing
+  vim.g.clipboard = 'osc52'
+
+  -- Select all using Control + A
+  vim.keymap.set('n', '<C-a>', 'ggVG', { desc = 'Select all text' })
+
 end
 
 -- ============================================================
@@ -429,55 +444,38 @@ do
     styles = {
       comments = { italic = false }, -- Disable italics in comments
     },
+    on_highlights = function(hl, c)
+    hl.DiffAdd = { bg = c.diff.add }
+    hl.DiffChange = { bg = c.diff.change }
+    hl.DiffDelete = { bg = c.diff.delete }
+    
+    -- If you use Gitsigns plugin:
+    hl.GitSignsAdd = { fg = c.green }
+    hl.GitSignsChange = { fg = c.blue }
+    hl.GitSignsDelete = { fg = c.red }
+  end,
   }
 
-  vim.pack.add { gh 'xiantang/darcula-dark.nvim' }
 
   vim.opt.termguicolors = true
-  vim.pack.add { gh 'Mofiqul/vscode.nvim' }
-  local c = require('vscode.colors').get_colors()
-  require('vscode').setup {
-    -- Alternatively set style in setup
-    -- style = 'light'
 
-    -- Enable transparent background
-    transparent = true,
-
-    -- Enable italic comment
-    italic_comments = true,
-
-    -- Enable italic inlay type hints
-    italic_inlayhints = true,
-
-    -- Underline `@markup.link.*` variants
-    underline_links = true,
-
-    -- Disable nvim-tree background color
-    disable_nvimtree_bg = true,
-
-    -- Apply theme colors to terminal
-    terminal_colors = true,
-
-    -- Override colors (see ./lua/vscode/colors.lua)
-    color_overrides = {
-      vscLineNumber = c.vscGray,
-    },
-
-    -- Override highlight groups (see ./lua/vscode/theme.lua)
-    group_overrides = {
-      -- this supports the same val table as vim.api.nvim_set_hl
-      -- use colors from this colorscheme by requiring vscode.colors!
-      Cursor = { fg = c.vscDarkBlue, bg = c.vscLightGreen, bold = true },
-    },
-  }
-  --require('vscode').load()
+  -- vim.pack.add { gh 'xiantang/darcula-dark.nvim' }
+  -- vim.pack.add { gh 'tomasiser/vim-code-dark' }
+  -- vim.pack.add { { src = "https://github.com/catppuccin/nvim", name = "catppuccin" } }
+  -- vim.pack.add { gh 'shaunsingh/nord.nvim' }
+  vim.pack.add({{ src = "https://github.com/kyerpotts/vulkanite.nvim" },})
+  require("vulkanite").setup({})
 
   -- Load the colorscheme here.
   -- Like many other themes, this one has different styles, and you could load
   -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-  -- vim.cmd.colorscheme 'tokyonight-night'
+  vim.cmd.colorscheme 'tokyonight-night'
   -- vim.cmd.colorscheme 'darcula-dark'
-  vim.cmd.colorscheme "vscode"
+  -- vim.cmd.colorscheme "vscode"
+  -- vim.cmd.colorscheme "catppuccin-nvim"
+  -- vim.cmd.colorscheme "kanagawa"
+  -- vim.cmd.colorscheme "nord"
+  -- vim.cmd.colorscheme "vulkanite"
 
   -- Highlight todo, notes, etc in comments
   vim.pack.add { gh 'folke/todo-comments.nvim' }
@@ -588,7 +586,7 @@ do
     pickers = {
       find_files = {
         hidden = true,
-        no_ignore = true,
+        no_ignore = false,
       },
       live_grep = {
         additional_args = function(opts)
@@ -852,7 +850,7 @@ do
 
   -- Translates between nvim-lspconfig server names and mason.nvim package names (e.g. lua_ls <-> lua-language-server)
   require('mason-lspconfig').setup {
-    automatic_enable = false, -- Change this to true if you want to automatically enable servers that are installed manually (e.g. via :Mason / :MasonInstall)
+    automatic_enable = true, -- Change this to true if you want to automatically enable servers that are installed manually (e.g. via :Mason / :MasonInstall)
   }
 
   -- Ensure the servers and tools above are installed

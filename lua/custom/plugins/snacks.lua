@@ -2,7 +2,7 @@
 -- https://github.com/folke/snacks.nvim
 
 vim.pack.add({
-  { src = "https://github.com/folke/snacks.nvim" },
+  'https://github.com/folke/snacks.nvim',
 })
 
 local snacks_opts = {

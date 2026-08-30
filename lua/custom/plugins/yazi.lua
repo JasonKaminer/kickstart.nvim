@@ -1,7 +1,6 @@
 vim.pack.add { 'https://github.com/nvim-lua/plenary.nvim' }
 vim.pack.add { 'https://github.com/mikavilpas/yazi.nvim' }
-vim.keymap.set({'n', 'v'}, '<leader>yy', '<cmd>Yazi<cr>', { desc = '[Y][Y]azi' })
-vim.keymap.set({'n', 'v'}, '<leader>yc', '<cmd>Yazi cwd<cr>', { desc = "Open the file manager in nvim's working directory" })
+vim.keymap.set({'n', 'v'}, '<leader>y', '<cmd>Yazi<cr>', { desc = '[Y]azi' })
 vim.keymap.set({'n', 'v'}, '<c-up>', '<cmd>Yazi toggle<cr>', { desc = 'Resume the last yazi session' })
 require('yazi').setup {
   opts = {
