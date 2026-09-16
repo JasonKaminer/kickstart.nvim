@@ -1,0 +1,48 @@
+-- Override gitsigns with custom keymaps for git blame and toggles
+return {
+  "lewis6991/gitsigns.nvim",
+  opts = function(_, opts)
+    opts.signs = {
+      add = { text = "+" },
+      change = { text = "~" },
+      delete = { text = "_" },
+      topdelete = { text = "‾" },
+      changedelete = { text = "~" },
+    }
+
+    -- Extend on_attach to add our custom keymaps
+    local original_on_attach = opts.on_attach or function() end
+
+    opts.on_attach = function(bufnr)
+      original_on_attach(bufnr)
+
+      local gitsigns = require("gitsigns")
+
+      -- Toggles
+      vim.keymap.set("n", "<leader>tb", gitsigns.toggle_current_line_blame, {
+        desc = "[T]oggle git show [b]lame line",
+        buffer = bufnr,
+      })
+      vim.keymap.set("n", "<leader>tw", gitsigns.toggle_word_diff, {
+        desc = "[T]oggle git intra-line [w]ord diff",
+        buffer = bufnr,
+      })
+
+      -- Blame
+      vim.keymap.set("n", "<leader>hb", function()
+        gitsigns.blame_line({ full = true })
+      end, {
+        desc = "git [b]lame line",
+        buffer = bufnr,
+      })
+
+      -- Preview hunk inline
+      vim.keymap.set("n", "<leader>hi", gitsigns.preview_hunk_inline, {
+        desc = "git preview hunk [i]nline",
+        buffer = bufnr,
+      })
+    end
+
+    return opts
+  end,
+}

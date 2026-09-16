@@ -1,0 +1,1 @@
+/home/jasonka/.config/nvim.bak/lua/plugins/../../../../.local/state/omarchy/current/theme/neovim.lua
