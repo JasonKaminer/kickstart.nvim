@@ -36,6 +36,7 @@ vim.keymap.set("n", "<leader>tb", function()
     vim.notify("gitsigns not available", "error")
   end
 end, { desc = "[T]oggle git [b]lame line" })
+
 -- Toggle LSP diagnostics
 vim.keymap.set("n", "<leader>td", function()
   -- Initialize state if not set
@@ -55,4 +56,4 @@ end, { desc = "[T]oggle LSP [d]iagnostics" })
 -- Unbind Shift+J (join lines)
 vim.keymap.set("n", "J", "<nop>", { noremap = true })
 
-
+vim.keymap.set('v', '<leader>f', vim.lsp.buf.format, { desc = 'LSP Format Selection' })
