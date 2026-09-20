@@ -36,3 +36,23 @@ vim.keymap.set("n", "<leader>tb", function()
     vim.notify("gitsigns not available", "error")
   end
 end, { desc = "[T]oggle git [b]lame line" })
+-- Toggle LSP diagnostics
+vim.keymap.set("n", "<leader>td", function()
+  -- Initialize state if not set
+  if vim.g.diagnostics_visible == nil then
+    vim.g.diagnostics_visible = true
+  end
+  vim.g.diagnostics_visible = not vim.g.diagnostics_visible
+  if vim.g.diagnostics_visible then
+    vim.diagnostic.show()
+    vim.notify("LSP diagnostics enabled", vim.log.levels.INFO)
+  else
+    vim.diagnostic.hide()
+    vim.notify("LSP diagnostics disabled", vim.log.levels.INFO)
+  end
+end, { desc = "[T]oggle LSP [d]iagnostics" })
+
+-- Unbind Shift+J (join lines)
+vim.keymap.set("n", "J", "<nop>", { noremap = true })
+
+
