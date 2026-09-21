@@ -56,4 +56,13 @@ end, { desc = "[T]oggle LSP [d]iagnostics" })
 -- Unbind Shift+J (join lines)
 vim.keymap.set("n", "J", "<nop>", { noremap = true })
 
-vim.keymap.set('v', '<leader>f', vim.lsp.buf.format, { desc = 'LSP Format Selection' })
+vim.keymap.set('v', '<leader>f', function()
+  local start_row = vim.fn.line("'<") - 1
+  local end_row = vim.fn.line("'>")
+  vim.lsp.buf.format({
+    range = {
+      ["start"] = { start_row, 0 },
+      ["end"] = { end_row, 0 }
+    }
+  })
+end, { desc = 'LSP Format Selection' })
