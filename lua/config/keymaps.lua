@@ -13,7 +13,7 @@ vim.keymap.set("n", "<C-a>", "ggVG", { desc = "Select all text" })
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 -- Open diagnostic quickfix list
-vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
+vim.keymap.set("n", "<leader>Q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 
 -- Exit terminal mode
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
@@ -79,3 +79,4 @@ vim.keymap.set("v", "<leader>cx", ":!xmllint --format -<CR>", {
     silent = true,
     desc = "Format selected XML with xmllint"
 })
+vim.keymap.set("v", "<leader>cj", ":.!jq .<CR>", { desc = "Format selected JSON" })
