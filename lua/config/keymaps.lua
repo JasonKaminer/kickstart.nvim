@@ -66,3 +66,16 @@ vim.keymap.set('v', '<leader>f', function()
     }
   })
 end, { desc = 'LSP Format Selection' })
+
+-- Map mouse side button (X1) to jump backward in the jump list (like browser back)
+vim.keymap.set('', '<X1Mouse>', '<C-o>', { noremap = true, silent = true })
+-- Map the other side button (X2) to jump forward
+vim.keymap.set('', '<X2Mouse>', '<C-i>', { noremap = true, silent = true })
+
+vim.keymap.set('n', '<MiddleMouse>', '<C-LeftMouse>', { desc = "Middle click to Go to Definition" })
+
+-- XML format Selection
+vim.keymap.set("v", "<leader>cx", ":!xmllint --format -<CR>", {
+    silent = true,
+    desc = "Format selected XML with xmllint"
+})
